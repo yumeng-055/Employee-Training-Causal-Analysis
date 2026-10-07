@@ -1,0 +1,3 @@
+test,statistic,df_num,df_den,p_value,status,interpretation,minimum_covariance_difference_eigenvalue,covariance_positive_definite
+Classical F comparison of pooled OLS and store FE,50.21608780557151,48,1146.0,3.4691147334322097e-245,Classical inference,Evidence of store heterogeneity under classical F assumptions; not a cluster-robust joint test.,,
+Standard Hausman comparison of FE and RE,,4,,,Chi-square inference unavailable,Covariance difference is indefinite or singular; no validated chi-square inference or rejection of RE consistency.,-4.09564884135908e-06,False

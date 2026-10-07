@@ -1,0 +1,11 @@
+check,passed
+"1,200 observations",True
+50 stores,True
+Months 1 through 24,True
+No missing analysis values,True
+Unique store-month keys,True
+24 months per store,True
+Binary treatment,True
+Treatment constant within store,True
+Post begins in month 13,True
+25 treated and 25 control stores,True

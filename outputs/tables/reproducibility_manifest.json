@@ -1,0 +1,20 @@
+{
+  "python": "3.12.13",
+  "packages": {
+    "pandas": "2.3.3",
+    "numpy": "2.2.6",
+    "scipy": "1.16.2",
+    "statsmodels": "0.14.5",
+    "linearmodels": "7.0",
+    "matplotlib": "3.10.6",
+    "openpyxl": "3.1.5",
+    "nbformat": "5.11.1",
+    "nbclient": "0.11.0",
+    "ipykernel": "7.4.0",
+    "jupyterlab": "4.6.4"
+  },
+  "sha256": {
+    "data/original_course_data.xlsx": "9eccf7618159f017a6c0065edfc1a2586001cea4d0582fb9ec15212861bec986",
+    "data/employee_training_data.csv": "34a148d92cf9a7f6da667e2e51f0fdacc11aff3b678d012832c7745f7098bd08"
+  }
+}

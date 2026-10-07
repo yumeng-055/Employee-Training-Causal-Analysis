@@ -1,0 +1,2 @@
+model,design_columns,design_rank,full_column_rank,max_abs_price_residual_after_store_month_FE,price_interpretation
+TWFE DID,74,74,True,2.2737367544323206e-13,Price variation is absorbed by store and month effects; no separate price coefficient estimated.

@@ -1,0 +1,5 @@
+model,r_squared,adjusted_r_squared,note
+Pooled OLS,0.1915037466811722,,Estimator-specific R-squared; not directly comparable
+Store FE,0.3229482519441279,,Within R-squared
+Random Effects,0.31442017980819903,,Estimator-specific R-squared; not directly comparable
+TWFE DID,0.7861625596782114,0.7722992087514879,Estimator-specific R-squared; not directly comparable

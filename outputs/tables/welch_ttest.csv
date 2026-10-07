@@ -1,0 +1,2 @@
+test,statistic,p_value,control_stores,treated_stores
+Store-level Welch t-test,-3.4245739181753425,0.001291732189121674,25,25
