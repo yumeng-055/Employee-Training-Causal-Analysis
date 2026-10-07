@@ -91,7 +91,7 @@ Management could select stores into training based on unobserved potential or mo
 
 ![Model comparison](outputs/figures/model_comparison.png)
 
-The group coefficients and DID interaction answer different questions and should not be read as interchangeable treatment estimates. FE has no separate `treated` coefficient. Estimator-specific R-squared measures, are not directly comparable.
+The group coefficients and DID interaction answer different questions and should not be read as interchangeable treatment estimates. FE has no separate `treated` coefficient. Estimator-specific R-squared measures are not directly comparable.
 
 Full precision and uncertainty are available in [descriptive statistics](outputs/tables/descriptive_statistics.csv), [OLS results](outputs/tables/ols_results.csv), and [the DID results](outputs/tables/twfe_did_results.csv). The [complete report](report/employee_training_analysis_report.md) includes the OLS, FE, and RE comparison and interpretation.
 
@@ -110,20 +110,20 @@ Full precision and uncertainty are available in [descriptive statistics](outputs
 - Findings may not generalise beyond the 50 stores. Training costs and margins are absent, so no profitability or ROI claim is possible.
 - The Hausman comparison does not support valid chi-square inference; FE is retained as a substantive design choice.
 
-## 9. Project Structure
+## 9. Repository Navigation
 
-```text
-employee-training-causal-analysis/
-├── README.md, requirements.txt, .gitignore
-├── data/                 # unchanged workbook, CSV, documentation
-├── notebooks/            # executed English workflow
-├── src/                  # readable data, model, and visualisation modules
-├── outputs/
-│   ├── figures/          # trends, distribution, diagnostics, model comparison
-│   └── tables/           # model estimates, diagnostics, data quality, provenance
-├── report/               # final complete English analysis report
-└── screenshots/          # copies of actual regenerated analysis graphics
-```
+| Location | Contents |
+|---|---|
+| [Analysis notebook](notebooks/employee_training_causal_analysis.ipynb) | Complete English workflow with executed results, charts, and interpretation |
+| [Case study report](report/employee_training_analysis_report.md) | Business question, methodology, statistical evidence, limitations, and management recommendations |
+| [Dataset](data/employee_training_data.csv) | The complete panel of 50 stores and 1,200 monthly observations |
+| [Data documentation](data/README.md) | Variable definitions, observation period, source information, and preprocessing |
+| [Source code](src/) | Reusable functions for data preparation, hypothesis testing, regression, panel models, DID, and visualisation |
+| [Result tables](outputs/tables/) | Descriptive statistics, model estimates, confidence intervals, and model diagnostics |
+| [Figures](outputs/figures/) | Monthly sales trends, sales distributions, regression diagnostics, and model comparison |
+| [Presentation images](screenshots/) | Key finding, monthly trends, and model results for a quick project overview |
+| [Data quality checks](outputs/tables/data_quality.csv) | Panel coverage, missing values, unique store-month keys, and treatment consistency |
+| [Dependencies](requirements.txt) | Package versions for reproducing the analysis |
 
 ## 10. How to Run
 
@@ -151,10 +151,18 @@ python -m src.execute_notebook
 
 The pipeline validates the panel structure, source-data consistency, and TWFE design rank. The modular pipeline and all 14 code cells of the English notebook have executed successfully in a clean environment installed from `requirements.txt`. The [complete report](report/employee_training_analysis_report.md) documents the final findings and methodological qualifications.
 
-## 11. Technologies
+## 11. Technologies and Analytical Skills
 
-Python, pandas, NumPy, SciPy, statsmodels, linearmodels, Matplotlib, openpyxl, and Jupyter. Dependencies are pinned to the validated environment; notebooks use nbformat, nbclient, and ipykernel for headless execution.
+**Python · Panel Data · Fixed Effects · Difference-in-Differences · Business Analytics**
 
-## 12. Author
+| Capability | Tools and methods | Application in this project |
+|---|---|---|
+| **Data preparation and validation** | pandas, NumPy, openpyxl | Load Excel and CSV data, verify source consistency, validate the balanced panel, and aggregate store-level outcomes |
+| **Statistical analysis** | SciPy, statsmodels | Conduct the Welch t-test, estimate OLS, calculate VIF, and inspect residual diagnostics |
+| **Panel modelling** | linearmodels | Estimate pooled OLS, store fixed effects, and random effects; assess store heterogeneity and qualify model-comparison inference |
+| **Causal inference** | statsmodels, TWFE DID | Evaluate relative sales changes using store and month effects, store-clustered standard errors, confidence intervals, and a visual pre-trend assessment |
+| **Data visualisation** | Matplotlib | Communicate sales patterns, model uncertainty, and the distinction between group differences and treatment estimates |
+| **Reproducible analysis** | Jupyter, pathlib, modular Python | Execute the complete notebook, use portable paths, and regenerate figures and tables with pinned dependencies |
+| **Business communication** | Case study reporting | Translate statistical evidence into a phased rollout recommendation while distinguishing assumptions, limitations, and business implications |
 
-**Cai Yumeng** — Data Analytics portfolio case study using a course-provided retail panel. The analysis evaluates the observed programme and does not claim independently collected business data or a realised rollout outcome.
+Dependencies are pinned in [requirements.txt](requirements.txt). Notebook automation uses nbformat, nbclient, and ipykernel to execute the workflow without an interactive session.
