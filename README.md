@@ -114,7 +114,7 @@ Full precision and uncertainty are available in [descriptive statistics](outputs
 
 ```text
 employee-training-causal-analysis/
-├── README.md, requirements.txt, .gitignore
+├── README.md, requirements.txt
 ├── data/                 # unchanged workbook, CSV, documentation
 ├── notebooks/            # executed English workflow
 ├── src/                  # readable data, model, and visualisation modules
