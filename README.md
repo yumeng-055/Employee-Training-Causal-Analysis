@@ -112,6 +112,23 @@ Full precision and uncertainty are available in [descriptive statistics](outputs
 
 ## 9. Repository Navigation
 
+### 9.1 Project Structure
+
+```text
+employee-training-causal-analysis/
+├── README.md, requirements.txt, .gitignore
+├── data/                 # unchanged workbook, CSV, documentation
+├── notebooks/            # executed English workflow
+├── src/                  # reusable data, model, and visualisation modules
+├── outputs/
+│   ├── figures/          # trends, distribution, diagnostics, model comparison
+│   └── tables/           # model estimates, diagnostics, data quality, provenance
+├── report/               # final complete English analysis report
+└── screenshots/          # key analytical outputs for presentation
+```
+
+### 9.2 File Navigation
+
 | Location | Contents |
 |---|---|
 | [Analysis notebook](notebooks/employee_training_causal_analysis.ipynb) | Complete English workflow with executed results, charts, and interpretation |
