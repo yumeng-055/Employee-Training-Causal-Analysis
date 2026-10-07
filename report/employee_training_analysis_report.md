@@ -1,6 +1,6 @@
 # Employee Training Causal Analysis
 
-## Business case and executive summary
+## 1. Business case and executive summary
 
 **Author: Cai Yumeng**
 
@@ -10,7 +10,7 @@ The two-way fixed effects difference-in-differences estimate is **5.1852 additio
 
 The analysis progresses from descriptive comparisons and a store-level Welch test to OLS, store fixed effects, random effects, and difference-in-differences. Monthly group trends provide a descriptive assessment of the parallel-trends assumption. IV/2SLS is a proposed extension only and has not been estimated.
 
-## Data and preparation
+## 2. Data and preparation
 
 The course-provided dataset contains **1,200 observations: 50 stores × 24 months**. There are 25 training-group stores and 25 control stores. Each store has 12 pre-intervention and 12 post-intervention observations. Calendar labels follow the supplied observation-period metadata: observation month 1 corresponds to January 2024 and month 13 to January 2025.
 
@@ -29,9 +29,9 @@ Data checks confirm complete store-month coverage, unique store-month keys, no m
 
 The materials do not establish an independently verified real-company origin or a currency scale for sales. Results are therefore expressed in dataset units. Training-centre distance, store coordinates, training costs, and records of concurrent interventions are unavailable. Further data documentation is provided in [the data directory](../data/README.md).
 
-## Descriptive evidence
+## 3. Descriptive evidence
 
-### Group and period comparisons
+### 3.1 Group and period comparisons
 
 | Group and period | Observations | Mean sales | Median | Standard deviation |
 |---|---:|---:|---:|---:|
@@ -44,13 +44,13 @@ Using unrounded group means, control sales increased by **1.6939 units**, while 
 
 ![Sales distribution across store-month observations](../outputs/figures/sales_distribution.png)
 
-### Store level hypothesis test
+### 3.2 Store level hypothesis test
 
 The Welch independent-samples test uses each store's average sales across its 12 post-training observations. This gives 25 store-level averages per group rather than treating 600 monthly records as independent observations.
 
 The two-sided test produces **t = −3.4246** when ordered as control minus treated, and **p = 0.0012917**. Post-training average sales differ significantly between groups. The test does not adjust for selection into training, common time changes, or other sources of confounding and is not definitive causal evidence.
 
-## Regression analysis and diagnostics
+## 4. Regression analysis and diagnostics
 
 The pooled OLS model relates sales to training-group membership, the post period, staffing, average price, and competitor count:
 
@@ -84,9 +84,9 @@ These values indicate limited multicollinearity among the regressors in this OLS
 
 ![OLS residual diagnostics](../outputs/figures/regression_diagnostics.png)
 
-## Panel models and model selection
+## 5. Panel models and model selection
 
-### Store fixed effects
+### 5.1 Store fixed effects
 
 Store fixed effects remove stable store characteristics and estimate associations from variation within stores. Because `treated` does not change within a store, it is absorbed by store effects and has no independently estimable coefficient in this model.
 
@@ -101,7 +101,7 @@ Within R-squared is **0.3229**. The conventional model F-statistic is approximat
 
 Staffing and competitor count lose their OLS significance after store effects are included. This is consistent with some pooled relationships reflecting persistent differences between stores rather than within-store changes. Average price and the post period remain positive associations. The post coefficient combines changes across all stores, including training exposure; it is not a control-group-only estimate of natural sales growth.
 
-### Random effects comparison
+### 5.2 Random effects comparison
 
 The random effects model includes an intercept and accounts for store-level random heterogeneity under the assumption that store effects are uncorrelated with the regressors.
 
@@ -116,9 +116,9 @@ The random effects model includes an intercept and accounts for store-level rand
 
 A classical Hausman comparison of common FE and RE slopes produces an indefinite covariance-difference matrix. Valid chi-square inference is therefore unavailable: the analysis does not claim that a Hausman test rejects RE consistency. Fixed effects are retained primarily because the analysis focuses on within-store changes over time. Persistent unobserved differences across stores are substantively important, and store fixed effects control for time-invariant store heterogeneity. R-squared definitions differ across panel estimators and should not be compared as a single model-ranking criterion.
 
-## Difference in differences evaluation
+## 6. Difference in differences evaluation
 
-### Identified model specification
+### 6.1 Identified model specification
 
 The main interpretation uses an identified two-way fixed effects model:
 
@@ -133,7 +133,7 @@ Average price varies as a store-specific level plus a common monthly change in t
 
 Staff count and competitor count are not included in the parsimonious TWFE specification. Their earlier FE insignificance informed that choice, but statistical insignificance alone is not a sufficient test of whether a variable could confound the training estimate.
 
-### Training estimate and uncertainty
+### 6.2 Training estimate and uncertainty
 
 | Result | Value |
 |---|---:|
@@ -156,7 +156,7 @@ A joint month-effects test in the identified model gives **F = 4.8574**, with 23
 
 OLS and RE treatment-group coefficients describe conditional group differences. The DID interaction describes relative changes. These quantities answer different questions and should not be treated as interchangeable estimates of the training effect.
 
-## Parallel trends and causal assumptions
+## 7. Parallel trends and causal assumptions
 
 ![Monthly sales in treated and control stores](../outputs/figures/monthly_sales_trends.png)
 
@@ -166,7 +166,7 @@ A causal interpretation of the training interaction requires that, without train
 
 No formal event study, placebo regression, geographic spillover analysis, or alternative assignment design is presented as completed.
 
-## Management implications
+## 8. Management implications
 
 **Expand in phases.** Start with stores similar to the observed trained stores, retain a credible comparison group where feasible, and evaluate incremental sales against training costs, implementation effort, and margins before expanding further.
 
@@ -176,7 +176,7 @@ No formal event study, placebo regression, geographic spillover analysis, or alt
 
 The estimated sales gain informs a decision about further testing; it is not proof that a rollout has already delivered a realised business outcome.
 
-## Limitations and proposed IV extension
+## 9. Limitations and proposed IV extension
 
 Training participation was not randomly assigned. Management preferences, store potential, or employee motivation may affect both participation and later sales. Fixed effects address stable differences; DID addresses common changes, but selection connected to different future trends can still bias the estimate.
 
@@ -186,7 +186,7 @@ An **IV/2SLS strategy was proposed but not estimated**, because distance from ea
 
 A proposed panel extension would instrument `treated × post` with `distance × post`, because store effects absorb constant distance and treatment status. A first stage would model exposure using the instrument and exogenous controls, and an IV second stage would estimate the sales relationship with appropriate two-stage inference. Neither a first-stage F-statistic nor an IV treatment coefficient is reported.
 
-## Reproducibility and conclusion
+## 10. Reproducibility and conclusion
 
 The modular pipeline loads and verifies the original data, estimates the models, validates the panel structure, source-data consistency, and TWFE design rank, and generates figures and tables. The executed English notebook follows the complete workflow.
 
