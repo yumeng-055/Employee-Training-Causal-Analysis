@@ -4,11 +4,17 @@
 
 **Author: Cai Yumeng**
 
+This individual academic project uses a course-provided panel and a simulated retail management brief. The report is written for an operations manager considering a further training pilot.
+
 Employee training represents an investment in store capability. The business question is whether trained stores improved sales beyond the changes experienced by stores that did not receive training. This report evaluates a January 2025 training intervention using a balanced monthly panel of 50 stores observed during 2024–2025.
 
 The two-way fixed effects difference-in-differences estimate is **5.1852 additional monthly sales units**, with store-clustered standard errors and p < 0.001. Its 95% normal-reference confidence interval is approximately **4.44 to 5.94 units**. The estimate supports a monitored, phased expansion to comparable stores, conditional on parallel trends and the other identification assumptions described below. Training costs and margins are unavailable, so the result does not establish profitability or return on investment.
 
 The analysis progresses from descriptive comparisons and a store-level Welch test to OLS, store fixed effects, random effects, and difference-in-differences. Monthly group trends provide a descriptive assessment of the parallel-trends assumption. IV/2SLS is a proposed extension only and has not been estimated.
+
+The completed analytical contribution is a validated panel, a comparison of pooled and within-store associations, an estimated training effect with uncertainty, and reproducible figures and tables. The proposed business contribution is a decision framework for further testing and scaling; implementation, realised profit, and rollout outcomes have not been measured.
+
+The report connects an operational question to an analytical specification, reproducible evidence, and a next decision. It defines the outcome and comparison unit before estimation, explains which assumptions support causal interpretation, and separates the measured sales effect from the additional information needed to assess business value.
 
 ## 2. Data and preparation
 
@@ -28,6 +34,12 @@ The course-provided dataset contains **1,200 observations: 50 stores × 24 month
 Data checks confirm complete store-month coverage, unique store-month keys, no missing values in analysis variables, and treatment status that remains constant within each store. The post indicator matches the intervention period. The CSV is checked against the supplied workbook; no observations are filtered, imputed, rounded, or otherwise modified for estimation. The panel is sorted by store and month for panel models.
 
 The materials do not establish an independently verified real-company origin or a currency scale for sales. Results are therefore expressed in dataset units. Training-centre distance, store coordinates, training costs, and records of concurrent interventions are unavailable. Further data documentation is provided in [the data directory](../data/README.md).
+
+### 2.1 Consistent analytical definitions
+
+The primary key is `(store_id, month)`, and the expected coverage is every store in each of the 24 months. Treatment status must be binary and constant within store, while the post indicator must match months 13–24. Data validation checks these conditions and verifies the CSV against the workbook before modelling.
+
+The main outcome is monthly store sales. Group trends average stores within each month; descriptive tables summarise store-month records within group and period. The Welch test instead uses each store's post-period mean as one observation. DID reports a relative monthly sales change for treated stores, with uncertainty clustered at the store level. Keeping these units distinct prevents repeated monthly observations from being treated as independent stores.
 
 ## 3. Descriptive evidence
 
@@ -156,6 +168,8 @@ A joint month-effects test in the identified model gives **F = 4.8574**, with 23
 
 OLS and RE treatment-group coefficients describe conditional group differences. The DID interaction describes relative changes. These quantities answer different questions and should not be treated as interchangeable estimates of the training effect.
 
+The estimated 5.19 units describe an average monthly effect for the trained group under the maintained assumptions. They do not represent a percentage uplift or a guarantee for each individual store. The confidence interval describes sampling uncertainty under the model; it cannot quantify bias caused by a violation of parallel trends or another causal assumption.
+
 ## 7. Parallel trends and causal assumptions
 
 ![Monthly sales in treated and control stores](../outputs/figures/monthly_sales_trends.png)
@@ -168,19 +182,47 @@ No formal event study, placebo regression, geographic spillover analysis, or alt
 
 ## 8. Management implications
 
-**Expand in phases.** Start with stores similar to the observed trained stores, retain a credible comparison group where feasible, and evaluate incremental sales against training costs, implementation effort, and margins before expanding further.
+### 8.1 Evidence and decision priorities
 
-**Monitor outcomes and operating conditions.** Track monthly sales, staffing, average price, promotions, and relevant local changes. Record training timing and participation quality so that future evaluations can distinguish implementation differences from the programme's underlying effect.
+**Expand through a controlled pilot.** The estimated positive training effect supports testing the programme in comparable stores. Use the pilot to assess commercial significance, delivery quality, and uncertainty before committing to a broader rollout.
 
-**Test complementary customer-value initiatives.** Communication skills, product presentation, and higher-value recommendations are plausible extensions to training. The observed price associations motivate further assessment but do not establish that a pricing intervention would independently increase sales.
+**Monitor outcomes and implementation.** Differences between pooled and within-store coefficients show why consistent store-level observation matters. Record monthly sales, staffing, average price, promotions, training assignment, and attendance. Changes in staffing or price should be interpreted as operating context rather than independently established causal drivers.
 
-The estimated sales gain informs a decision about further testing; it is not proof that a rollout has already delivered a realised business outcome.
+**Evaluate complementary customer-value initiatives explicitly.** Communication skills, product presentation, and higher-value recommendations are plausible proposals. Test them separately from training, or specify a combined programme, so that interpretation reflects what was actually implemented. Price associations alone do not establish a pricing opportunity.
+
+### 8.2 Proposed pilot design
+
+Where feasible, randomise eligible stores to immediate training or a later rollout. Define eligibility using business feasibility and baseline store characteristics, such as sales and staffing, before allocation. Keep the store as the assignment and analysis unit, and retain all assigned stores in their allocation groups regardless of training attendance. Attendance informs implementation quality and should not determine inclusion in the effect estimate.
+
+Pre-specify the baseline and follow-up windows, the monthly outcome definition, the treatment start, and decision criteria. Account for seasonal coverage when choosing the observation window, record other interventions, and retain comparison stores throughout follow-up. The proposed primary outcome is average monthly store sales, evaluated across all allocated stores with uncertainty estimates appropriate to the design.
+
+If randomisation is impractical, document the assignment rule, keep a credible comparison group, and assess differential trends and concurrent interventions before interpreting changes causally. This is a proposed future design; the observed programme was not randomised, and no new experiment has been executed.
+
+### 8.3 Proposed monitoring measures
+
+| Measure | Definition and observation unit | Purpose and required fields |
+|---|---|---|
+| Incremental monthly sales | Difference in average sales changes between assigned pilot and comparison stores across pre-specified baseline and follow-up windows | Primary outcome; future store-month sales, allocation group, and intervention dates |
+| Training completion rate | Staff completing the programme divided by staff assigned to it, calculated for each store and training cohort | Delivery quality; staff assignment, attendance, and completion records |
+| Incremental contribution after programme costs | Estimated incremental revenue multiplied by the applicable contribution margin, less incremental direct and indirect programme costs over the same evaluation window | Economic decision; documented sales-unit conversion, revenue, margin, training, travel, and staff-time costs |
+| Staffing disruption | Overtime hours associated with training per store and month, considered alongside recorded staffing levels | Operational guardrail; staff schedules, hours, and attendance dates |
+| Customer complaint rate | Recorded complaints divided by recorded transactions per store and month | Service guardrail; complaint counts and transaction counts using consistent definitions |
+
+All measures in this scorecard are proposed. Only sales, staff count, average price, competitor count, and the panel identifiers are present in the current dataset. Completion, cost, overtime, and customer-service outcomes have not been measured. Sales must be given a verified measurement scale before calculating incremental revenue or contribution.
+
+### 8.4 Scaling decision
+
+Define what counts as commercially meaningful benefit and acceptable operational disruption before reviewing pilot outcomes. Expansion should consider the estimated effect, its confidence interval, the credibility of the comparison, delivery quality, and contribution after programme costs. Statistical significance by itself is insufficient.
+
+If results are too imprecise, extend observation or reconsider the evaluation design. If delivery is inconsistent, investigate implementation before assuming the programme cannot work. If costs or operational guardrails are unfavourable, reassess the rollout scope. The current analysis provides evidence for further testing and no numerical ROI, profitability target, or guaranteed store-level gain.
 
 ## 9. Limitations and proposed IV extension
 
 Training participation was not randomly assigned. Management preferences, store potential, or employee motivation may affect both participation and later sales. Fixed effects address stable differences; DID addresses common changes, but selection connected to different future trends can still bias the estimate.
 
 Concurrent promotions, regional shocks, anticipation, and spillovers are potential threats. The observation window contains only 12 months before and 12 months after intervention, limiting assessment of longer-term effects. Findings may not generalise beyond the 50 stores. Costs, margins, geographical data, and other intervention records are absent.
+
+Data collection priorities are allocation and attendance records, concurrent intervention logs, a verified sales-unit definition, and training costs and margins. Those fields would support implementation monitoring and an economic evaluation. Formal event-study and placebo analyses could strengthen future assessment of timing and trends, but would still not prove every causal assumption.
 
 An **IV/2SLS strategy was proposed but not estimated**, because distance from each store to the nearest training centre is unavailable. Conceptually, distance could influence participation through travel and scheduling costs. Relevance, exclusion, and exogeneity remain untested; geography could also influence demand directly.
 
@@ -189,6 +231,8 @@ A proposed panel extension would instrument `treated × post` with `distance × 
 ## 10. Reproducibility and conclusion
 
 The modular pipeline loads and verifies the original data, estimates the models, validates the panel structure, source-data consistency, and TWFE design rank, and generates figures and tables. The executed English notebook follows the complete workflow.
+
+The local reporting workflow regenerates tables, figures, and presentation images from the same computed results. A reproducibility manifest records package versions and data-file hashes so reviewers can check the environment and inputs. Modular functions separate data checks, descriptive analysis, estimation, and visualisation, making the calculation path inspectable without a complex software architecture.
 
 From the repository root, install the dependencies in a Python 3.12 virtual environment and run:
 
@@ -201,3 +245,5 @@ python -m src.execute_notebook
 See [the project README](../README.md) for environment activation and interactive notebook instructions. Relevant computed outputs include [descriptive statistics](../outputs/tables/descriptive_statistics.csv), [OLS results](../outputs/tables/ols_results.csv), [the DID estimate](../outputs/tables/twfe_did_results.csv), and [monthly group trends](../outputs/tables/monthly_trends.csv).
 
 The observed evidence supports an estimated training effect of approximately **5.19 monthly sales units**, conditional on DID assumptions. The appropriate business response is a phased, monitored expansion with an explicit economic evaluation and stronger data collection for future causal analysis.
+
+The completed project demonstrates Python data preparation, statistical testing, econometric model interpretation, reproducible reporting, and communication of actionable decisions. These capabilities are evidenced by the analysis files; the proposed future experiment and business monitoring measures are not presented as completed implementations.
