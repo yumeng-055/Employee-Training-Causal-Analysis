@@ -7,7 +7,7 @@ This case study uses **1,200 monthly observations from 50 stores across 2024–2
 *An individual academic project using course-provided panel data and a simulated retail management brief. Numerical findings are verified; rollout recommendations and pilot measures are proposals for further validation.*
 
 - **Business question:** Did employee training improve monthly store sales enough to support a phased expansion of the programme?
-- **Key finding:** TWFE DID estimates **+5.19 monthly sales units**, with a store-clustered 95% confidence interval of **[4.44, 5.94]** and **p < 0.001**. Under the DID assumptions, this supports a monitored pilot in comparable stores, followed by a cost and margin evaluation before broader rollout.
+- **Key finding:** TWFE DID estimates **+CNY 51,900 in monthly sales revenue (5.19 × CNY 10,000)**, with a store-clustered 95% confidence interval of **[4.44, 5.94]** and **p < 0.001**. Under the DID assumptions, this supports a monitored pilot in comparable stores, followed by a cost and margin evaluation before broader rollout.
 - **Project contribution:** Validate a monthly store panel, compare pooled and within-store associations, estimate the training effect with uncertainty, and translate the evidence into rollout recommendations with proposed validation measures.
 - **Core strengths:** Python data analysis, econometric programme evaluation, data quality controls, reproducible reporting, and communication of business decisions with uncertainty.
 
@@ -27,23 +27,23 @@ The workflow connects a decision to measurable evidence: define the store-month 
 
 - **Data:** a balanced, course-provided monthly panel spanning 2024–2025; 25 trained and 25 control stores.
 - **Approach:** descriptive comparisons → OLS → store FE and RE → TWFE DID → visual parallel-trends assessment.
-- **Finding:** the treatment interaction estimates a +5.19-unit effect. The model explains approximately 78.6% of observed sales variation, including fixed effects; adjusted R-squared is approximately 0.772.
+- **Finding:** the treatment interaction estimates an effect of +5.19 in CNY 10,000 (approximately CNY 51,900). The model explains approximately 78.6% of observed sales variation, including fixed effects; adjusted R-squared is approximately 0.772.
 - **Decision:** pilot expansion in similar stores, monitor outcomes and operational indicators, and assess economics before scaling.
 - **Scope:** the main interpretation uses an identified TWFE model and explicit causal assumptions. IV/2SLS was proposed but **never empirically estimated**. See [the complete analysis report](report/employee_training_analysis_report.md).
 
 ## 3. Key Finding
 
-Under parallel trends, no anticipation, no relevant spillovers, and no confounding group-specific shocks, the DID estimate suggests that training increased average monthly store sales by approximately **5.19 dataset units**. This is an estimated effect within the observed sample, not a realised business outcome or an ROI estimate.
+Under parallel trends, no anticipation, no relevant spillovers, and no confounding group-specific shocks, the DID estimate suggests that training increased average monthly store sales by approximately **CNY 51,900 (5.19 × CNY 10,000) in monthly sales revenue**. This is an estimated effect within the observed sample, not a realised business outcome or an ROI estimate.
 
 Average price is fully absorbed by store and month effects in this dataset. The identified TWFE model therefore omits its redundant separate coefficient and gives the same training estimate, with a store-clustered 95% interval of **[4.44, 5.94]**. See [the complete analysis report](report/employee_training_analysis_report.md).
 
-The estimate describes the average relative monthly change for treated stores in this sample. It is expressed in sales units, not a percentage uplift, and does not imply that every store gains the same amount. The confidence interval quantifies model-based uncertainty; it does not account for bias from violated causal assumptions.
+The estimate describes the average relative monthly change for treated stores in this sample. It is expressed in CNY 10,000 of sales revenue, not a percentage uplift, and does not imply that every store gains the same amount. The confidence interval quantifies model-based uncertainty; it does not account for bias from violated causal assumptions.
 
 ## 4. Data
 
 The supplied data contain store identifiers, observation month, training-group and post-period indicators, sales, staffing, average price, and competitor count. Month 13 marks the intervention. The pipeline validates coverage and missing values and compares the CSV with the unchanged Excel workbook.
 
-No data are invented or removed. Sales currency and measurement scale are not established, so effects are reported in dataset units. The data are course-provided; real-company provenance, simulation status, and public redistribution rights are not asserted. See [data documentation](data/README.md).
+No data are invented or removed. Monthly sales revenue is measured in CNY 10,000 (万元); the estimated 5.19 therefore corresponds to approximately CNY 51,900 per store per month. The data are course-provided; real-company provenance, simulation status, and public redistribution rights are not asserted. See [data documentation](data/README.md).
 
 ### 4.1 Analytical Data Definitions
 
@@ -53,7 +53,7 @@ No data are invented or removed. Sales currency and measurement scale are not es
 | **Coverage** | 50 stores, each observed for all 24 months; all required analysis values present | [Validation output](outputs/tables/data_quality.csv) |
 | **Treatment and timing** | Binary treatment remains constant within store; the post period starts in month 13 | [Data definitions](data/README.md) |
 | **Hypothesis-test unit** | Average the 12 post-period observations for each store before comparing 25 stores per group | [Welch test implementation](src/descriptive_analysis.py) |
-| **Main effect and inference** | TWFE training interaction in monthly sales units, with 50 store clusters and a normal-reference confidence interval | [DID results](outputs/tables/twfe_did_results.csv) |
+| **Main effect and inference** | TWFE training interaction in monthly sales revenue (CNY 10,000), with 50 store clusters and a normal-reference confidence interval | [DID results](outputs/tables/twfe_did_results.csv) |
 
 These definitions keep descriptive summaries, model estimates, and the report aligned. The workflow fails when required panel checks or source-data consistency checks fail.
 
@@ -134,7 +134,7 @@ These measures are proposals for a future pilot, not measured rollout outcomes o
 |---|---|---|
 | **Incremental monthly sales** | Difference in average sales changes between assigned pilot and comparison stores over a pre-specified baseline and follow-up window; report the estimate and confidence interval | Future store-month sales and assignment dates |
 | **Training completion** | Staff completing the programme divided by staff assigned to it, by store and training cohort; assess delivery without excluding non-completers from the store-level effect estimate | Staff assignment and completion records |
-| **Incremental contribution after training costs** | Estimate incremental revenue and contribution using documented sales units, margins, and programme costs before making a scaling decision | Sales-unit definition, transaction revenue, margins, and direct and indirect training costs |
+| **Incremental contribution after training costs** | Estimate incremental revenue and contribution using sales revenue in CNY, margins, and programme costs before making a scaling decision | Transaction revenue, margins, and direct and indirect training costs |
 
 Proceed toward expansion only if the pilot's estimated benefit is commercially meaningful relative to cost and operational disruption. Define the evaluation window, decision criteria, and service or staffing guardrails before observing results; the current data do not support a numerical ROI target.
 
@@ -147,7 +147,7 @@ Proceed toward expansion only if the pilot's estimated benefit is commercially m
 - Findings may not generalise beyond the 50 stores. Training costs and margins are absent, so no profitability or ROI claim is possible.
 - The Hausman comparison does not support valid chi-square inference; FE is retained as a substantive design choice.
 
-**Next data priorities:** intervention assignment and attendance records, concurrent promotions, verified sales units, and training costs and margins. With those inputs, a future evaluation could assess implementation quality, confounding interventions, and economics. Formal event-study and placebo analyses remain potential extensions rather than completed evidence.
+**Next data priorities:** intervention assignment and attendance records, concurrent promotions, and training costs and margins. With those inputs, a future evaluation could assess implementation quality, confounding interventions, and economics. Formal event-study and placebo analyses remain potential extensions rather than completed evidence.
 
 ## 9. Repository Navigation
 

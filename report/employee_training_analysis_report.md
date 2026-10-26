@@ -8,7 +8,7 @@ This individual academic project uses a course-provided panel and a simulated re
 
 Employee training represents an investment in store capability. The business question is whether trained stores improved sales beyond the changes experienced by stores that did not receive training. This report evaluates a January 2025 training intervention using a balanced monthly panel of 50 stores observed during 2024–2025.
 
-The two-way fixed effects difference-in-differences estimate is **5.1852 additional monthly sales units**, with store-clustered standard errors and p < 0.001. Its 95% normal-reference confidence interval is approximately **4.44 to 5.94 units**. The estimate supports a monitored, phased expansion to comparable stores, conditional on parallel trends and the other identification assumptions described below. Training costs and margins are unavailable, so the result does not establish profitability or return on investment.
+The two-way fixed effects difference-in-differences estimate is **5.1852 in CNY 10,000 of additional monthly sales revenue (approximately CNY 51,852)**, with store-clustered standard errors and p < 0.001. Its 95% normal-reference confidence interval is approximately **4.44 to 5.94 in CNY 10,000 (approximately CNY 44,400 to 59,400)**. The estimate supports a monitored, phased expansion to comparable stores, conditional on parallel trends and the other identification assumptions described below. Training costs and margins are unavailable, so the result does not establish profitability or return on investment.
 
 The analysis progresses from descriptive comparisons and a store-level Welch test to OLS, store fixed effects, random effects, and difference-in-differences. Monthly group trends provide a descriptive assessment of the parallel-trends assumption. IV/2SLS is a proposed extension only and has not been estimated.
 
@@ -26,14 +26,14 @@ The course-provided dataset contains **1,200 observations: 50 stores × 24 month
 | `month` | Observation month from 1 to 24 |
 | `treated` | Training-group indicator that remains constant within store |
 | `post` | Indicator for observation months 13–24 |
-| `sales` | Monthly sales in the dataset's measurement units |
+| `sales` | Monthly sales revenue, measured in CNY 10,000 (万元) |
 | `staff_num` | Staff count |
 | `avg_price` | Average price indicator |
 | `competitor_num` | Competitor count |
 
 Data checks confirm complete store-month coverage, unique store-month keys, no missing values in analysis variables, and treatment status that remains constant within each store. The post indicator matches the intervention period. The CSV is checked against the supplied workbook; no observations are filtered, imputed, rounded, or otherwise modified for estimation. The panel is sorted by store and month for panel models.
 
-The materials do not establish an independently verified real-company origin or a currency scale for sales. Results are therefore expressed in dataset units. Training-centre distance, store coordinates, training costs, and records of concurrent interventions are unavailable. Further data documentation is provided in [the data directory](../data/README.md).
+The materials do not establish an independently verified real-company origin. Monthly sales revenue is measured in CNY 10,000 (万元); all sales values, sales differences, and confidence intervals use this scale unless explicitly converted to CNY. Training-centre distance, store coordinates, training costs, and records of concurrent interventions are unavailable. Further data documentation is provided in [the data directory](../data/README.md).
 
 ### 2.1 Consistent analytical definitions
 
@@ -52,7 +52,7 @@ The main outcome is monthly store sales. Group trends average stores within each
 | Treated before training | 300 | 56.48 | 56.56 | 5.42 |
 | Treated after training | 300 | 63.36 | 63.26 | 5.35 |
 
-Using unrounded group means, control sales increased by **1.6939 units**, while treated sales increased by **6.8791 units**. The unadjusted difference in changes is **5.1852 units**. Pre-training average sales were similar, with trained stores approximately 0.43 units below controls. These comparisons describe the observed data; they do not alone identify a causal training effect.
+Using unrounded group means, control sales increased by **1.6939 in CNY 10,000**, while treated sales increased by **6.8791 in CNY 10,000**. The unadjusted difference in changes is **5.1852 in CNY 10,000**. Pre-training average sales were similar, with trained stores approximately 0.43 in CNY 10,000 below controls. These comparisons describe the observed data; they do not alone identify a causal training effect.
 
 ![Sales distribution across store-month observations](../outputs/figures/sales_distribution.png)
 
@@ -102,7 +102,7 @@ These values indicate limited multicollinearity among the regressors in this OLS
 
 Store fixed effects remove stable store characteristics and estimate associations from variation within stores. Because `treated` does not change within a store, it is absorbed by store effects and has no independently estimable coefficient in this model.
 
-| Variable | Store FE coefficient | Store clustered standard error | p value |
+| Variable | Store FE coefficient | Store clustered standard error (CNY 10,000) | p value |
 |---|---:|---:|---:|
 | Post | 2.6919 | 0.5161 | < 0.001 |
 | Staff count | 0.1533 | 0.3139 | 0.6254 |
@@ -149,10 +149,10 @@ Staff count and competitor count are not included in the parsimonious TWFE speci
 
 | Result | Value |
 |---|---:|
-| Training interaction coefficient | **5.185167** |
-| Store clustered standard error | 0.382603 |
+| Training interaction coefficient (CNY 10,000) | **5.185167** |
+| Store clustered standard error (CNY 10,000) | 0.382603 |
 | p value | < 0.001 |
-| 95 percent normal reference confidence interval | [4.435279, 5.935054] |
+| 95 percent normal reference confidence interval (CNY 10,000) | [4.435279, 5.935054] |
 | Store effects | Included |
 | Month effects | Included |
 | Observations | 1,200 |
@@ -168,7 +168,7 @@ A joint month-effects test in the identified model gives **F = 4.8574**, with 23
 
 OLS and RE treatment-group coefficients describe conditional group differences. The DID interaction describes relative changes. These quantities answer different questions and should not be treated as interchangeable estimates of the training effect.
 
-The estimated 5.19 units describe an average monthly effect for the trained group under the maintained assumptions. They do not represent a percentage uplift or a guarantee for each individual store. The confidence interval describes sampling uncertainty under the model; it cannot quantify bias caused by a violation of parallel trends or another causal assumption.
+The estimated CNY 51,900 (5.19 × CNY 10,000) describes an average monthly effect for the trained group under the maintained assumptions. This does not represent a percentage uplift or a guarantee for each individual store. The confidence interval describes sampling uncertainty under the model; it cannot quantify bias caused by a violation of parallel trends or another causal assumption.
 
 ## 7. Parallel trends and causal assumptions
 
@@ -204,11 +204,11 @@ If randomisation is impractical, document the assignment rule, keep a credible c
 |---|---|---|
 | Incremental monthly sales | Difference in average sales changes between assigned pilot and comparison stores across pre-specified baseline and follow-up windows | Primary outcome; future store-month sales, allocation group, and intervention dates |
 | Training completion rate | Staff completing the programme divided by staff assigned to it, calculated for each store and training cohort | Delivery quality; staff assignment, attendance, and completion records |
-| Incremental contribution after programme costs | Estimated incremental revenue multiplied by the applicable contribution margin, less incremental direct and indirect programme costs over the same evaluation window | Economic decision; documented sales-unit conversion, revenue, margin, training, travel, and staff-time costs |
+| Incremental contribution after programme costs | Estimated incremental revenue multiplied by the applicable contribution margin, less incremental direct and indirect programme costs over the same evaluation window | Economic decision; sales revenue in CNY, margin, training, travel, and staff-time costs |
 | Staffing disruption | Overtime hours associated with training per store and month, considered alongside recorded staffing levels | Operational guardrail; staff schedules, hours, and attendance dates |
 | Customer complaint rate | Recorded complaints divided by recorded transactions per store and month | Service guardrail; complaint counts and transaction counts using consistent definitions |
 
-All measures in this scorecard are proposed. Only sales, staff count, average price, competitor count, and the panel identifiers are present in the current dataset. Completion, cost, overtime, and customer-service outcomes have not been measured. Sales must be given a verified measurement scale before calculating incremental revenue or contribution.
+All measures in this scorecard are proposed. Only sales, staff count, average price, competitor count, and the panel identifiers are present in the current dataset. Completion, cost, overtime, and customer-service outcomes have not been measured. Sales effects can be converted to CNY by multiplying by 10,000; contribution and ROI additionally require margins and programme costs.
 
 ### 8.4 Scaling decision
 
@@ -222,7 +222,7 @@ Training participation was not randomly assigned. Management preferences, store 
 
 Concurrent promotions, regional shocks, anticipation, and spillovers are potential threats. The observation window contains only 12 months before and 12 months after intervention, limiting assessment of longer-term effects. Findings may not generalise beyond the 50 stores. Costs, margins, geographical data, and other intervention records are absent.
 
-Data collection priorities are allocation and attendance records, concurrent intervention logs, a verified sales-unit definition, and training costs and margins. Those fields would support implementation monitoring and an economic evaluation. Formal event-study and placebo analyses could strengthen future assessment of timing and trends, but would still not prove every causal assumption.
+Data collection priorities are allocation and attendance records, concurrent intervention logs, training costs and margins. Those fields would support implementation monitoring and an economic evaluation. Formal event-study and placebo analyses could strengthen future assessment of timing and trends, but would still not prove every causal assumption.
 
 An **IV/2SLS strategy was proposed but not estimated**, because distance from each store to the nearest training centre is unavailable. Conceptually, distance could influence participation through travel and scheduling costs. Relevance, exclusion, and exogeneity remain untested; geography could also influence demand directly.
 
@@ -244,6 +244,6 @@ python -m src.execute_notebook
 
 See [the project README](../README.md) for environment activation and interactive notebook instructions. Relevant computed outputs include [descriptive statistics](../outputs/tables/descriptive_statistics.csv), [OLS results](../outputs/tables/ols_results.csv), [the DID estimate](../outputs/tables/twfe_did_results.csv), and [monthly group trends](../outputs/tables/monthly_trends.csv).
 
-The observed evidence supports an estimated training effect of approximately **5.19 monthly sales units**, conditional on DID assumptions. The appropriate business response is a phased, monitored expansion with an explicit economic evaluation and stronger data collection for future causal analysis.
+The observed evidence supports an estimated training effect of approximately **CNY 51,900 in additional monthly sales revenue (5.19 × CNY 10,000)**, conditional on DID assumptions. The appropriate business response is a phased, monitored expansion with an explicit economic evaluation and stronger data collection for future causal analysis.
 
 The completed project demonstrates Python data preparation, statistical testing, econometric model interpretation, reproducible reporting, and communication of actionable decisions. These capabilities are evidenced by the analysis files; the proposed future experiment and business monitoring measures are not presented as completed implementations.

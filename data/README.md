@@ -13,9 +13,9 @@ The balanced panel covers 50 stores, with 24 monthly observations per store (1,2
 | `staff_num` | Number of staff |
 | `avg_price` | Average price indicator |
 | `competitor_num` | Number of competitors |
-| `sales` | Monthly store sales outcome in the supplied dataset's units |
+| `sales` | Monthly store sales revenue, measured in CNY 10,000 (万元) |
 
-Sales units and currency are not documented well enough to translate results into revenue, profit, or return on investment. Distance to a training centre, training costs, store coordinates, and other intervention indicators are unavailable.
+Sales revenue is measured in CNY 10,000 (万元). Multiply a reported sales value or effect by 10,000 to express it in CNY. Costs and margins are unavailable, so revenue effects alone cannot establish profit or return on investment. Distance to a training centre, training costs, store coordinates, and other intervention indicators are unavailable.
 
 `original_course_data.xlsx` is a byte-for-byte copy of the provided workbook. `employee_training_data.csv` exports its first worksheet without filtering, imputation, rounding, winsorisation, or modification of source values. The pipeline checks the CSV against the workbook, validates unique store-month keys, missing values, treatment status, and balanced-panel coverage. Sorting for panel estimation affects row order only.
 
